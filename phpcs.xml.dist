@@ -10,6 +10,8 @@
 
     <rule ref="Symfony">
         <exclude name="Symfony.Commenting.License"/>
+        <exclude name="Symfony.Commenting.ClassComment"/>
+        <exclude name="Symfony.Commenting.FunctionComment"/>
     </rule>
 
     <file>bin/</file>

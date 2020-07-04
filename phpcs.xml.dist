@@ -8,7 +8,9 @@
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
 
-    <rule ref="Symfony" />
+    <rule ref="Symfony">
+        <exclude name="Symfony.Commenting.License"/>
+    </rule>
 
     <file>bin/</file>
     <file>config/</file>

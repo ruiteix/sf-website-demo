@@ -1,26 +1,24 @@
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d4c026becca947f9acbaa1424ac600bf)](https://www.codacy.com/manual/ruiteix/sf-website-demo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ruiteix/sf-website-demo&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d4c026becca947f9acbaa1424ac600bf)](https://www.codacy.com/manual/ruiteix/sf-website-demo?utm_source=github.com&utm_medium=referral&utm_content=ruiteix/sf-website-demo&utm_campaign=Badge_Grade)
 
-Requirement
------------
+## Requirement
 
-* Docker & docker compose
-* Unix like system
+- Docker & docker compose
+- Unix like system
 
-Installation
-------------
+## Installation
 
-* Initialize
+- Initialize
 
-```make init```
+`make init`
 
 Make sure to personalize the docker-compose.override.yml
 
-* Pull, build & start containers
+- Pull, build & start containers
 
-```make up```
+`make up`
 
-* Install dependances
+- Install dependances
 
-```make install```
+`make install`
 
-* Go to http://demo.docker.localhost/
+- Go to http://demo.docker.localhost/

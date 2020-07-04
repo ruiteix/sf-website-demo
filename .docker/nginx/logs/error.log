@@ -1,0 +1,7 @@
+2019/08/14 18:41:56 [emerg] 1#1: "add_header" directive is not allowed here in /etc/nginx/conf.d/app.conf:11
+2019/08/14 18:47:13 [emerg] 1#1: open() "/etc/nginx/fcgi_params" failed (2: No such file or directory) in /etc/nginx/conf.d/app.conf:12
+2019/09/01 11:10:40 [emerg] 1#1: host not found in upstream "php-fpm.local" in /etc/nginx/conf.d/app.conf:10
+2019/09/01 11:11:26 [emerg] 1#1: host not found in upstream "php-fpm.local" in /etc/nginx/conf.d/app.conf:10
+2019/09/01 11:12:49 [emerg] 1#1: host not found in upstream "php-fpm.local" in /etc/nginx/conf.d/app.conf:10
+2019/09/01 11:14:35 [emerg] 1#1: host not found in upstream "php-fpm.local" in /etc/nginx/conf.d/app.conf:10
+2019/09/01 11:15:14 [emerg] 1#1: host not found in upstream "php-fpm.local" in /etc/nginx/conf.d/app.conf:10

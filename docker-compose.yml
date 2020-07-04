@@ -1,0 +1,53 @@
+version: "3.6"
+
+services:
+    reverse-proxy:
+        image: traefik
+        ports:
+            - "80:80"
+            - "8080:8080"
+        networks:
+            - ${NETWORK_NAME:-demo}
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./.docker/traefik.yml:/etc/traefik/traefik.yml
+
+    db:
+        image: mysql:8
+        networks:
+            - ${NETWORK_NAME:-demo}
+        command: --sql_mode="" --default-time-zone="+00:00"  --innodb-buffer-pool-size=8G --innodb-log-buffer-size=256M --innodb-log-file-size=1G --innodb-write-io-threads=16 --innodb-flush-log-at-trx-commit=0
+        volumes:
+            - ./.docker/mysql:/var/lib/mysql
+        ports:
+            - ${DB_PORT:-3306}:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-demo}
+            MYSQL_USER: ${MYSQL_USER:-demo}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-demo}
+
+    php-fpm:
+        build:
+            context: ./.docker/php-fpm
+        networks:
+            - ${NETWORK_NAME:-demo}
+        volumes:
+            - .:/var/www/app:cached
+        links:
+            - db:mysql.docker
+
+    nginx:
+        build:
+            context: ./.docker/nginx
+        networks:
+            - ${NETWORK_NAME:-demo}
+        links:
+            - php-fpm:php-fpm.local
+        labels:
+            traefik.http.routers.nginx.rule: "Host(`demo.docker.localhost`)"
+
+networks:
+    demo:
+        name: ${NETWORK_NAME:-demo}
+        external: true

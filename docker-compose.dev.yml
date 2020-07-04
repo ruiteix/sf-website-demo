@@ -1,0 +1,15 @@
+version: "3.6"
+
+services:
+    php-fpm:
+        build:
+            args:
+                - HOST_USERID=${HOST_USERID:-1000}
+                - HOST_GROUPID=${HOST_GROUPID:-1000}
+    nginx:
+        build:
+            args:
+                - HOST_USERID=${HOST_USERID:-1000}
+networks:
+    demo:
+        driver: "bridge"

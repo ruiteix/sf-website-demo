@@ -10,17 +10,17 @@ RUN mkdir -p /usr/local/bin \
 # Install oh-my-zsh
 RUN git clone git://github.com/robbyrussell/oh-my-zsh.git /usr/local/etc/oh-my-zsh
 
-ADD conf/zshrc /root/.zshrc
-ADD conf/zshrc /home/www/.zshrc
+COPY conf/zshrc /root/.zshrc
+COPY conf/zshrc /home/www/.zshrc
 
 RUN mkdir -p /usr/local/etc/oh-my-zsh/themes \
-    && wget -O /usr/local/etc/oh-my-zsh/themes/docker.zsh-theme https://raw.githubusercontent.com/dpdornseifer/docker-zsh-theme/master/docker.zsh-theme
+    && curl https://raw.githubusercontent.com/dpdornseifer/docker-zsh-theme/master/docker.zsh-theme > /usr/local/etc/oh-my-zsh/themes/docker.zsh-theme
 
 RUN sed -i "s|/root:/bin/ash|/root:/bin/zsh|g" /etc/passwd
 RUN sed -i "s|/home/www-data:/bin/false|/home/www-data:/bin/zsh|g" /etc/passwd
 
 # Configs
-ADD conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 ARG HOST_USERID
 ARG HOST_GROUPID

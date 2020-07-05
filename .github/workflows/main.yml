@@ -27,6 +27,9 @@ jobs:
       - name: Install
         run: make up install
 
+      - name: Wait mysql
+        run: docker-compose exec -T db timeout 15 sh -c "while ! mysqladmin ping; do sleep 1 && echo -n .; done;"
+
       - name: Quality
         run: make lint phpmd
 

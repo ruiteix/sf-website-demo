@@ -51,7 +51,7 @@ phpmd:
 
 test: ## run unit tests
 	$(EXEC) 'bin/console --env=test cache:warmup'
-	$(EXEC) 'vendor/bin/simple-phpunit  --coverage-clover ./.build/clover.xml'
+	$(EXEC) 'vendor/bin/simple-phpunit --coverage-clover ./.build/clover.xml'
 
 sh:
 	$(EXEC) zsh

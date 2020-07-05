@@ -54,6 +54,16 @@ services:
         labels:
             traefik.http.routers.nginx.rule: "Host(`demo.docker.localhost`)"
 
+    mailDev:
+        image: djfarrelly/maildev
+        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+        networks:
+            - ${NETWORK_NAME:-demo}
+        ports:
+            - "81:80"
+        labels:
+            traefik.http.routers.mailDev.rule: "Host(`mail.demo.docker.localhost`)"
+
 networks:
     demo:
         name: ${NETWORK_NAME:-demo}

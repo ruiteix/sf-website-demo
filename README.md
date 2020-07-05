@@ -29,3 +29,8 @@ Make sure to personalize the docker-compose.override.yml
 `make install`
 
 - Go to http://demo.docker.localhost/
+
+Tools
+-----
+
+* Mail catcher : http://mail.demo.docker.localhost:81

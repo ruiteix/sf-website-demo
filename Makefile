@@ -1,4 +1,4 @@
-.PHONY: help down up up-ci install test-php test-update clean lint lint-php fixtures-reset
+.PHONY: help down up up-ci install test-php test-update clean lint lint-fix fixtures-reset
 DOCKER_COMPOSE_OVERRIDE ?= dev
 
 ifeq (,$(shell which docker))
@@ -13,7 +13,7 @@ endif
 init: docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
 	cp -f docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml docker-compose.override.yml
 	docker network create demo
-	docker login registry.gitlab.com
+	docker login registry.gitlab.com -u $(GITLAB_LOGIN) -p $(GITLAB_PASSWORD)
 
 install: ## run install
 	$(EXEC) 'composer install'
@@ -57,10 +57,10 @@ clean:
 	git clean -xdf
 
 lint: ## Dry-run PHP lint
-	$(EXEC) 'vendor/bin/php-cs-fixer fix --dry-run --using-cache=no -v --diff --diff-format=udiff'
+	$(EXEC) 'php-cs-fixer fix --dry-run --using-cache=no -v --diff --diff-format=udiff'
 
 lint-fix: ## Fix PHP lint
-	$(EXEC) 'vendor/bin/php-cs-fixer fix --verbose'
+	$(EXEC) 'php-cs-fixer fix --verbose'
 
 ## MISC
 help: ## This help dialog.

@@ -7,6 +7,13 @@
 
 ## Installation
 
+- Personalize gitlabl credentials in .env.local
+
+```
+GITLAB_LOGIN=<your login>
+GITLAB_PASSWORD=<token>
+```
+
 - Initialize
 
 `make init`

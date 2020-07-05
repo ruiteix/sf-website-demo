@@ -25,3 +25,5 @@ jobs:
       - name: Install
         run: make up
 
+      - name: Lint
+        run: make lint

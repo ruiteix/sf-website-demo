@@ -42,7 +42,7 @@ restart: ## restart containers
 	docker-compose restart
 
 up-ci:
-	docker network create biereart
+	docker network create ${NETWORK_NAME:-demo}
 	docker-compose up -d --build
 
 test: lint ## run unit tests

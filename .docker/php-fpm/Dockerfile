@@ -25,7 +25,9 @@ COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 ARG HOST_USERID
 ARG HOST_GROUPID
 
-RUN ln -sfn /dev/null /var/log/lastlog \
-    && usermod -u ${HOST_USERID} -d /home/www www-data \
-    && groupmod -g ${HOST_GROUPID} www-data \
-    && chown -R www-data: /home/www
+RUN if [ ! -z "$HOST_USERID" ] && [ ! -z "$HOST_GROUPID" ] ; then set -x ; \
+    ln -sfn /dev/null /var/log/lastlog; \
+    usermod -u ${HOST_USERID} -d /home/www www-data; \
+    groupmod -g ${HOST_GROUPID} www-data; \
+    chown -R www-data: /home/www; \
+    fi

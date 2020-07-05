@@ -1,19 +1,24 @@
-.PHONY: help down up up-ci install test-php test-update clean lint lint-fix fixtures-reset
+.PHONY: help down up install test-php phpmd clean lint lint-fix fixtures-reset
 DOCKER_COMPOSE_OVERRIDE ?= dev
+DOCKER_COMPOSER_USER ?= www-data
 
 ifeq (,$(shell which docker))
 EXEC=bash -c
 else
 DC_OPTS=$(shell [ -t 0 ] || echo '-T')
-EXEC=docker-compose exec $(DC_OPTS) --user=www-data php-fpm bash -c
+EXEC=docker-compose exec $(DC_OPTS) --user=$(DOCKER_COMPOSER_USER) php-fpm bash -c
 endif
 
 .DEFAULT_GOAL := help
 
-init: docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
+docker-compose.override.yml: docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
 	cp -f docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml docker-compose.override.yml
+
+init-docker:
 	docker network create demo
 	docker login registry.gitlab.com -u $(GITLAB_LOGIN) -p $(GITLAB_PASSWORD)
+
+init: docker-compose.override.yml init-docker
 
 install: ## run install
 	$(EXEC) 'composer install'
@@ -41,13 +46,12 @@ stop: ## stop containers
 restart: ## restart containers
 	docker-compose restart
 
-up-ci:
-	docker network create ${NETWORK_NAME:-demo}
-	docker-compose up -d --build
+phpmd:
+	$(EXEC) 'vendor/bin/phpmd src/ text codesize.xml'
 
-test: lint ## run unit tests
+test: ## run unit tests
 	$(EXEC) 'bin/console --env=test cache:warmup'
-	$(EXEC) 'vendor/bin/simple-phpunit'
+	$(EXEC) 'vendor/bin/simple-phpunit  --coverage-clover ./.build/clover.xml'
 
 sh:
 	$(EXEC) zsh

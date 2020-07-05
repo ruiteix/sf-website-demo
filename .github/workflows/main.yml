@@ -8,6 +8,8 @@ on:
 
 env:
   APP_ENV: test
+  XDEBUG_ENABLED: 1
+  DOCKER_COMPOSER_USER: root
 
 jobs:
   build:
@@ -20,13 +22,22 @@ jobs:
         env:
           GITLAB_LOGIN: ${{ secrets.GITLAB_LOGIN }}
           GITLAB_PASSWORD: ${{ secrets.GITLAB_PASSWORD }}
-        run: make init
+        run: make init-docker
 
       - name: Install
-        run: make up
+        run: make up install
 
-      - name: Lint
-        run: make lint
+      - name: Quality
+        run: make lint phpmd
+
+      - name: Test
+        run: make fixtures-reset test
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_TOKEN }}
+          coverage-reports: .build/clover.xml
 
       - name: Clean
         run: make down

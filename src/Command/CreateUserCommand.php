@@ -30,6 +30,14 @@ class CreateUserCommand extends Command
      */
     protected function configure()
     {
+        $help = <<<'EOT'
+The <info>user:create</info> command creates a user:
+
+  <info>php %command.full_name% toto@demo.com</info>
+
+This interactive shell will ask you for a email/password.
+
+EOT;
         $this
             ->setName('security:user:create')
             ->setDescription('Create a user.')
@@ -38,14 +46,7 @@ class CreateUserCommand extends Command
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
                 new InputArgument('admin', InputArgument::REQUIRED, 'Set the user as admin (ROLE_ADMIN)'),
             ])
-            ->setHelp(<<<'EOT'
-The <info>user:create</info> command creates a user:
-
-  <info>php %command.full_name% toto@demo.com</info>
-
-This interactive shell will ask you for a email/password.
-
-EOT);
+            ->setHelp($help);
     }
 
     /**
@@ -76,6 +77,8 @@ EOT);
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings("PMD.CyclomaticComplexity")
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {

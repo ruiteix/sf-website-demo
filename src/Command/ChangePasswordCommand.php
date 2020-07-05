@@ -66,6 +66,8 @@ class ChangePasswordCommand extends Command
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings("PMD.CyclomaticComplexity")
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {

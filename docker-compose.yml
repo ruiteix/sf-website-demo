@@ -35,6 +35,8 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD:-demo}
 
     php-fpm:
+        environment:
+            XDEBUG_ENABLED: ${XDEBUG_ENABLED:-0}
         build:
             context: ./.docker/php-fpm
         networks:

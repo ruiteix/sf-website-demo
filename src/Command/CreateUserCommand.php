@@ -92,7 +92,7 @@ EOT;
         if (!$input->getArgument('admin')) {
             $question = new ChoiceQuestion('Admin user:', ['yes', 'no'], 'yes');
             $question->setNormalizer(function ($value) {
-                return 'yes' == strtolower($value);
+                return 'yes' === strtolower($value);
             });
             $questions['admin'] = $question;
         }

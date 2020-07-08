@@ -60,7 +60,7 @@ EOT;
 
         $user = (new User())
             ->setEmail($email)
-            ->setRoles($admin ? ['ROLE_ADMIN'] : ['ROLE_USER'])
+            ->setRoles('yes' === strtolower($admin) ? ['ROLE_ADMIN'] : ['ROLE_USER'])
         ;
 
         $password = $this->passwordEncoder->encodePassword($user, $password);
@@ -89,14 +89,6 @@ EOT;
             $questions['email'] = $question;
         }
 
-        if (!$input->getArgument('admin')) {
-            $question = new ChoiceQuestion('Admin user:', ['yes', 'no'], 'yes');
-            $question->setNormalizer(function ($value) {
-                return 'yes' === strtolower($value);
-            });
-            $questions['admin'] = $question;
-        }
-
         if (!$input->getArgument('password')) {
             $question = new Question('Please choose a password:');
             $question->setValidator(function ($password) {
@@ -108,6 +100,11 @@ EOT;
             });
             $question->setHidden(true);
             $questions['password'] = $question;
+        }
+
+        if (!$input->getArgument('admin')) {
+            $question = new ChoiceQuestion('Admin user:', ['yes', 'no'], 'yes');
+            $questions['admin'] = $question;
         }
 
         foreach ($questions as $name => $question) {

@@ -35,6 +35,7 @@
     "require-dev": {
         "fzaninotto/faker": "^1.9",
         "phpmd/phpmd": "^2.8",
+        "symfony/css-selector": "5.1.*",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",

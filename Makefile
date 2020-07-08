@@ -53,6 +53,9 @@ test: ## run unit tests
 	$(EXEC) 'bin/console --env=test cache:warmup'
 	$(EXEC) 'vendor/bin/simple-phpunit --coverage-clover ./.build/clover.xml'
 
+test-coverage-html: ## run unit tests
+	$(EXEC) 'vendor/bin/simple-phpunit --coverage-html ./.build/coverage/'
+
 sh:
 	$(EXEC) zsh
 

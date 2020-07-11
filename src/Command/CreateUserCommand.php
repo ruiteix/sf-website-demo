@@ -14,7 +14,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateUserCommand extends Command
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
@@ -28,7 +35,7 @@ class CreateUserCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $help = <<<'EOT'
 The <info>user:create</info> command creates a user:
@@ -54,9 +61,9 @@ EOT;
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $email = $input->getArgument('email');
-        $password = $input->getArgument('password');
-        $admin = $input->getArgument('admin');
+        $email = $this->getStringArgument('email', $input);
+        $password = $this->getStringArgument('password', $input);
+        $admin = $this->getStringArgument('admin', $input);
 
         $user = (new User())
             ->setEmail($email)
@@ -80,7 +87,7 @@ EOT;
      *
      * @SuppressWarnings("PMD.CyclomaticComplexity")
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
 
@@ -91,7 +98,7 @@ EOT;
 
         if (!$input->getArgument('password')) {
             $question = new Question('Please choose a password:');
-            $question->setValidator(function ($password) {
+            $question->setValidator(function (string $password): string {
                 if (empty($password)) {
                     throw new \Exception('Password can not be empty');
                 }
@@ -111,5 +118,15 @@ EOT;
             $answer = $this->getHelper('question')->ask($input, $output, $question);
             $input->setArgument($name, $answer);
         }
+    }
+
+    private function getStringArgument(string $name, InputInterface $input): string
+    {
+        $value = $input->getArgument($name);
+        if (!\is_string($value)) {
+            throw new \RuntimeException(sprintf('Invalide input value for "%s"', $name));
+        }
+
+        return $value;
     }
 }

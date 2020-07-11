@@ -13,7 +13,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ChangePasswordCommand extends Command
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
@@ -27,7 +34,7 @@ class ChangePasswordCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('security:user:change-password')
@@ -43,7 +50,16 @@ class ChangePasswordCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $email = $input->getArgument('email');
+        if (!\is_string($email)) {
+            return 1;
+        }
 
+        $password = $input->getArgument('password');
+        if (!\is_string($password)) {
+            return 1;
+        }
+
+        /** @var User|null $user */
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $email,
         ]);
@@ -52,7 +68,7 @@ class ChangePasswordCommand extends Command
             throw new \Exception('Unable to find a matching User for given e-mail address');
         }
 
-        $password = $this->passwordEncoder->encodePassword($user, $input->getArgument('password'));
+        $password = $this->passwordEncoder->encodePassword($user, $password);
 
         $user->setPassword($password);
 
@@ -69,7 +85,7 @@ class ChangePasswordCommand extends Command
      *
      * @SuppressWarnings("PMD.CyclomaticComplexity")
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $questions = [];
 
@@ -80,7 +96,7 @@ class ChangePasswordCommand extends Command
 
         if (!$input->getArgument('password')) {
             $question = new Question('Please enter new password:');
-            $question->setValidator(function ($password) {
+            $question->setValidator(function (string $password): string {
                 if (empty($password)) {
                     throw new \Exception('Password can not be empty');
                 }

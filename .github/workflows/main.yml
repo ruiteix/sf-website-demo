@@ -31,7 +31,10 @@ jobs:
         run: docker-compose exec -T db timeout 15 sh -c "while ! mysqladmin ping; do sleep 1 && echo -n .; done;"
 
       - name: Quality
-        run: make lint phpmd
+        run: make phpunit-version lint phpmd phpstan
+
+      - name: Security
+        run: make psalm
 
       - name: Test
         run: make fixtures-reset test

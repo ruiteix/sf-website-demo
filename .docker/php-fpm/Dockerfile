@@ -7,6 +7,8 @@ RUN mkdir -p /usr/local/bin \
     && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
     && chmod a+x /usr/local/bin/symfony
 
+COPY php.ini /usr/local/etc/php
+
 # Install oh-my-zsh
 RUN git clone git://github.com/robbyrussell/oh-my-zsh.git /usr/local/etc/oh-my-zsh
 

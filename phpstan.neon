@@ -1,0 +1,13 @@
+includes:
+        - vendor/phpstan/phpstan-symfony/extension.neon
+        - vendor/phpstan/phpstan-symfony/rules.neon
+parameters:
+    symfony:
+        container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+    bootstrapFiles:
+        - vendor/bin/.phpunit/phpunit-7.5-0/vendor/autoload.php
+    inferPrivatePropertyTypeFromConstructor: true
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Prophecy
+        - '/Access to an undefined property Prophecy\\Prophecy\\ObjectProphecy.*/'

@@ -17,6 +17,8 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @var int
      */
     private $id;
 

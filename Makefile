@@ -1,4 +1,4 @@
-.PHONY: help down up install test-php phpmd clean lint lint-fix fixtures-reset
+.PHONY: help down up install test-php phpmd phpstan psalm clean lint lint-fix fixtures-reset phpunit-version
 DOCKER_COMPOSE_OVERRIDE ?= dev
 DOCKER_COMPOSER_USER ?= www-data
 
@@ -49,6 +49,12 @@ restart: ## restart containers
 phpmd:
 	$(EXEC) 'vendor/bin/phpmd src/ text codesize.xml'
 
+phpstan:
+	$(EXEC) 'vendor/bin/phpstan -vvv analyse src/ tests --level 7 --no-progress --debug'
+
+psalm:
+	$(EXEC) 'vendor/bin/psalm --show-info=true'
+
 test: ## run unit tests
 	$(EXEC) 'bin/console --env=test cache:warmup'
 	$(EXEC) 'vendor/bin/simple-phpunit --coverage-clover ./.build/clover.xml'
@@ -68,6 +74,9 @@ lint: ## Dry-run PHP lint
 
 lint-fix: ## Fix PHP lint
 	$(EXEC) 'php-cs-fixer fix --verbose'
+
+phpunit-version:
+	$(EXEC) 'vendor/bin/simple-phpunit --version'
 
 ## MISC
 help: ## This help dialog.

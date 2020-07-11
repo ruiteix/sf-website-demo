@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecurityControllerTest extends WebTestCase
 {
-    public function testLogin()
+    public function testLogin(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
@@ -24,7 +24,7 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function testLoggedUserIsRedirected()
+    public function testLoggedUserIsRedirected(): void
     {
         $client = static::createClient();
         $userRepository = static::$container->get(UserRepository::class);

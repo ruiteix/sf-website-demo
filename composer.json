@@ -36,11 +36,14 @@
         "dama/doctrine-test-bundle": "^6.3",
         "fzaninotto/faker": "^1.9",
         "phpmd/phpmd": "^2.8",
+        "phpstan/phpstan-phpunit": "^0.12.11",
+        "phpstan/phpstan-symfony": "^0.12.6",
         "symfony/css-selector": "5.1.*",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "^1.0"
+        "symfony/test-pack": "^1.0",
+        "vimeo/psalm": "^3.12"
     },
     "config": {
         "optimize-autoloader": true,

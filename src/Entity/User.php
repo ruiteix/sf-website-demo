@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     /**
+     * @var int|null
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -23,10 +25,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
+     * @var string|null
      */
     private $email;
 
     /**
+     * @var string[]
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -39,6 +45,8 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
@@ -78,6 +86,9 @@ class User implements UserInterface
         return $this->roles;
     }
 
+    /**
+     * @param string[] $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -106,15 +117,14 @@ class User implements UserInterface
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function isVerified(): bool

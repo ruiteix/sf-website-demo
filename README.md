@@ -1,5 +1,9 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d4c026becca947f9acbaa1424ac600bf)](https://www.codacy.com/manual/ruiteix/sf-website-demo?utm_source=github.com&utm_medium=referral&utm_content=ruiteix/sf-website-demo&utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/d4c026becca947f9acbaa1424ac600bf)](https://www.codacy.com/manual/ruiteix/sf-website-demo?utm_source=github.com&utm_medium=referral&utm_content=ruiteix/sf-website-demo&utm_campaign=Badge_Coverage)
+## Symfony 5 website demo application
+
+A basic symfony 5 web application using docker and testing tools to measure code quality.
+Can be used as an skeleton application.
 
 ## Requirement
 

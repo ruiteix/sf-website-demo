@@ -30,7 +30,6 @@ class ChangePasswordCommandTest extends KernelTestCase
     {
         $this->expectException(\RuntimeException::class);
         $this->executeCommand(['email' => 'foo@demo.com', 'password' => 'password']);
-
     }
 
     public function testCreateUserInteractive(): void

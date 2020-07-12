@@ -38,7 +38,7 @@ class CreateUserCommand extends Command
     protected function configure(): void
     {
         $help = <<<'EOT'
-The <info>user:create</info> command creates a user:
+The <info>security:user:create</info> command creates a user:
 
   <info>php %command.full_name% toto@demo.com</info>
 
@@ -124,7 +124,7 @@ EOT;
     {
         $value = $input->getArgument($name);
         if (!\is_string($value)) {
-            throw new \RuntimeException(sprintf('Invalide input value for "%s"', $name));
+            throw new \RuntimeException(sprintf('Invalid input value for "%s"', $name));
         }
 
         return $value;

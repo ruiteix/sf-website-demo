@@ -49,15 +49,8 @@ class ChangePasswordCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $email = $input->getArgument('email');
-        if (!\is_string($email)) {
-            return 1;
-        }
-
-        $password = $input->getArgument('password');
-        if (!\is_string($password)) {
-            return 1;
-        }
+        $email = $this->getStringArgument('email', $input);
+        $password = $this->getStringArgument('password', $input);
 
         /** @var User|null $user */
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
@@ -65,7 +58,7 @@ class ChangePasswordCommand extends Command
         ]);
 
         if (!$user) {
-            throw new \Exception('Unable to find a matching User for given e-mail address');
+            throw new \RuntimeException('Unable to find a matching User for given e-mail address');
         }
 
         $password = $this->passwordEncoder->encodePassword($user, $password);
@@ -98,7 +91,7 @@ class ChangePasswordCommand extends Command
             $question = new Question('Please enter new password:');
             $question->setValidator(function (string $password): string {
                 if (empty($password)) {
-                    throw new \Exception('Password can not be empty');
+                    throw new \RuntimeException('Password can not be empty');
                 }
 
                 return $password;
@@ -111,5 +104,15 @@ class ChangePasswordCommand extends Command
             $answer = $this->getHelper('question')->ask($input, $output, $question);
             $input->setArgument($name, $answer);
         }
+    }
+
+    private function getStringArgument(string $name, InputInterface $input): string
+    {
+        $value = $input->getArgument($name);
+        if (!\is_string($value)) {
+            throw new \RuntimeException(sprintf('Invalid input value for "%s"', $name));
+        }
+
+        return $value;
     }
 }

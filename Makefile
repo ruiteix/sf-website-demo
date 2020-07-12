@@ -1,4 +1,4 @@
-.PHONY: help down up install test-php phpmd phpstan psalm clean lint lint-fix fixtures-reset phpunit-version
+.PHONY: help down up install test-php phpmd phpstan psalm clean lint lint-fix fixtures-reset phpunit-version quality
 DOCKER_COMPOSE_OVERRIDE ?= dev
 DOCKER_COMPOSER_USER ?= www-data
 
@@ -50,10 +50,12 @@ phpmd:
 	$(EXEC) 'vendor/bin/phpmd src/ text codesize.xml'
 
 phpstan:
-	$(EXEC) 'vendor/bin/phpstan -vvv analyse src/ tests --level 7 --no-progress --debug'
+	$(EXEC) 'vendor/bin/phpstan -vvv analyse src/ tests --level 7 --no-progress'
 
 psalm:
 	$(EXEC) 'vendor/bin/psalm --show-info=true'
+
+quality: lint phpmd phpstan
 
 test: ## run unit tests
 	$(EXEC) 'bin/console --env=test cache:warmup'
